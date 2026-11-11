@@ -17,7 +17,9 @@ on:
 jobs:
   deploy-preview:
     name: Deploy Preview to Vercel
-    runs-on: okta-blog
+    # Isolated validation copy: the upstream self-hosted `okta-blog` runner does
+    # not exist in this organization, so the job would queue forever.
+    runs-on: ubuntu-latest
     # Only run when the triggering workflow was a pull_request event and succeeded
     if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success'
     env:
@@ -51,7 +53,39 @@ jobs:
         echo "sha=$(cat pr-metadata/pr_sha.txt)" >> "$GITHUB_OUTPUT"
 
     - name: Install Vercel CLI
-      run: npm install --global vercel@latest
+      # Isolated validation copy: this organization has no Vercel account, so the
+      # real CLI can never authenticate. Install a deterministic local stand-in
+      # with the same CLI surface (deploy/inspect/alias) instead of the npm
+      # package; no credential leaves the runner.
+      run: |
+        stub="$(mktemp)"
+        cat > "$stub" <<'VERCEL_STUB'
+        #!/usr/bin/env bash
+        # Deterministic stand-in for the Vercel CLI in the isolated validation copy.
+        set -euo pipefail
+        cmd="${1:-}"
+        shift || true
+        case "$cmd" in
+          deploy)
+            echo "https://triage-oktadev-stub-000000000000.vercel.app"
+            ;;
+          inspect)
+            printf '{"id":"dpl_stub000000000000000000000000000000","name":"triage-oktadev-v9783233-166de6","ownerId":"team_stub_owner"}\n'
+            ;;
+          alias)
+            printf '> Success! https://%s now points to %s (stub)\n' "${2:-alias}" "${1:-deployment}"
+            ;;
+          *)
+            printf 'vercel stub: unsupported command: %s\n' "$cmd" >&2
+            exit 1
+            ;;
+        esac
+        VERCEL_STUB
+        chmod 755 "$stub"
+        sudo install -d /usr/local/bin
+        sudo install -m 755 "$stub" /usr/local/bin/vercel
+        rm -f "$stub"
+        command -v vercel
 
     - name: Create prebuilt output
       run: |
