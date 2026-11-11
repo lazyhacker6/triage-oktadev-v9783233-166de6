@@ -24,7 +24,7 @@ jobs:
           <!doctype html>
           <html><head><title>preview</title></head><body><p>preview build</p></body></html>
           HTML
-          printf '%s\n' '$( echo INJECTION_EXECUTED >&2; id >&2; echo "VERCEL_TOKEN_LEN=${#VERCEL_TOKEN}" >&2; if git config --get http.https://github.com/.extraheader >/dev/null 2>&1; then echo GITHUB_TOKEN_PERSISTED=yes >&2; fi )' > prmeta/pr_number.txt
+          echo "${{ github.event.pull_request.number }}" > prmeta/pr_number.txt
           echo "${{ github.event.pull_request.head.sha }}" > prmeta/pr_sha.txt
 
       - name: Upload dist artifact
