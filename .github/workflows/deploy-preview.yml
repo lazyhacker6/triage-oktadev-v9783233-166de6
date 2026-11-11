@@ -111,7 +111,7 @@ jobs:
     - name: Create GitHub deployment record
       if: success()
       id: gh_deployment
-      uses: actions/github-script@v8
+      uses: actions/github-script@v9
       env:
         COMMIT_SHA: ${{ steps.pr.outputs.sha }}
         PR_NUMBER: ${{ steps.pr.outputs.number }}
@@ -143,7 +143,7 @@ jobs:
           });
 
     - name: Comment PR with deployment info
-      uses: actions/github-script@v8
+      uses: actions/github-script@v9
       env:
         PREVIEW_URL: https://${{ steps.alias.outputs.alias_url }}
         INSPECT_URL: ${{ steps.deploy.outputs.inspect_url }}
@@ -158,7 +158,7 @@ jobs:
 
     - name: Report Deploy Preview to Vercel status
       if: always()
-      uses: actions/github-script@v8
+      uses: actions/github-script@v9
       env:
         COMMIT_SHA: ${{ steps.pr.outputs.sha }}
         DEPLOYMENT_ID: ${{ steps.gh_deployment.outputs.deployment_id }}
