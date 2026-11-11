@@ -26,7 +26,7 @@ jobs:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
     steps:
     # Checkout base repo (safe — does NOT run fork code)
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v7
 
     - name: Download dist artifact
       uses: actions/download-artifact@v8

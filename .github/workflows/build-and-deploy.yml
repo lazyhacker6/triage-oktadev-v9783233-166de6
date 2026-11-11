@@ -11,7 +11,7 @@ jobs:
     name: Build & Deploy
     runs-on: okta-blog
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v7
 
     - name: Set up node and npm
       uses: actions/setup-node@v5
@@ -80,7 +80,7 @@ jobs:
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v7
 
     - name: Download dist artifact
       uses: actions/download-artifact@v8
