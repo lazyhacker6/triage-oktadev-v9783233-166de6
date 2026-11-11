@@ -1,0 +1,31 @@
+{
+  "bys": [
+    "advocate",
+    "contractor",
+    "internal-contributor",
+    "external-contributor"
+  ],
+  "communities": [
+    ".net",
+    "design",
+    "gaming",
+    "go",
+    "rust",
+    "java",
+    "javascript",
+    "mobile",
+    "php",
+    "python",
+    "ruby",
+    "security",
+    "devops",
+    "kubernetes",
+    "announcement",
+    "no-code"
+  ],
+  "types": [
+    "awareness",
+    "conversion"
+  ],
+  "tags": []
+}

@@ -1,0 +1,110 @@
+name: The Identity Platform for Developers
+title: Okta Developer
+email: developers@okta.com
+description: > # this means to ignore newlines until "baseurl:"
+  Secure, scalable, and highly available authentication and user management for any app.
+baseurl: ""
+url: "https://developer.okta.com"
+encoding: utf-8
+twitter_username: OktaDev
+github_username:  oktadev
+disqus_shortname: oktadevblog
+
+plugins:
+  - jekyll-redirect-from
+  - jekyll-paginate
+  - jekyll-assets
+  - jekyll-include-cache
+  - jekyll-asciidoc
+
+page_gen:
+  - index_files: true
+    data: authors
+    template: author
+    name: id
+    dir: blog/authors
+
+tag_page_layout: tag
+tag_page_dir: blog/tags
+tag_permalink_style: pretty
+
+defaults:
+  - scope:
+      path: ""
+      type: "authors"
+    values:
+      layout: "author"
+
+source: _source
+destination: dist
+
+markdown: kramdown
+markdown_ext: md
+
+kramdown:
+  syntax_highlighter: rouge
+  toc_levels: 1..3
+
+permalink: /blog/:year/:month/:day/:title
+
+support_phone_number: "1-888-722-7871"
+github_base_url: "https://github.com/oktadev/okta-blog/tree/source/_source/"
+github_edit_url: "https://github.com/oktadev/okta-blog/edit/source/_source/"
+get_started_url: "https://developer.okta.com/signup/"
+stack_overflow_forum_url: "http://stackoverflow.com/search?q=okta"
+
+timezone: EST
+
+# This is different from "url"
+# This variable will prevent user from committing sitemap with local url
+production_url: "https://developer.okta.com"
+
+include: [_static, .nojekyll, .woff, .tff, _headers, _redirects]
+
+assets:
+  compress:
+    css: true
+    js:  true
+  autowrite: true
+  cache: .asset-cache
+  cache_type: filesystem
+  skip_baseurl_with_cdn: false
+  skip_prefix_with_cdn: false
+  prefix: "/assets-jekyll"
+  digest: true
+  sources:
+    - _assets/files
+  features:
+    liquid: false
+    integrity: false
+    automatic_img_size: false
+    automatic_img_alt : true
+
+paginate: 10
+paginate_path: "/blog/page/:num"
+
+sitemap_ignore:
+  # Omit from sitemap.collection traversal
+  - posts
+
+# Bug: 37458
+# Add Discourse link
+dev_forum:  https://devforum.okta.com/
+
+# Location of main Drupal site for navigation and shared resources
+external_domain: https://developer.okta.com
+
+# Location of Drupal site for Coveo, used by navigation and shared resources
+external_www_domain: https://www.okta.com
+
+# Link for telling people to contact support
+
+contact_support_lc: contact <a href="https://support.okta.com/help/open_case" target="_blank">Support</a>
+contact_support_uc: Contact <a href="https://support.okta.com/help/open_case" target="_blank">Support</a>
+
+# AsciiDoc settings - only applies to blog. Can be removed when we move to Hugo for the blog.
+asciidoctor:
+  attributes:
+    source-highlighter: rouge
+    icons: font
+  base_dir: :_source

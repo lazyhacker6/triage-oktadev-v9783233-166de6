@@ -1,0 +1,124 @@
+<head>
+  <link rel="preload" href="https://use.typekit.net/osg6paw.css" as="style" crossorigin />
+  <link rel="stylesheet" href="https://use.typekit.net/osg6paw.css" crossorigin />
+  <script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"  type="text/javascript" charset="UTF-8" data-domain-script="ac20316c-ea73-4ca8-8b3b-be2d16672166" ></script>
+  <script type="text/javascript">
+    function OptanonWrapper() { }
+  </script>
+  <script src="https://assets.adobedtm.com/6bb3f7663515/7ce314d1f3c9/launch-2f9b28f7d70e.min.js"></script>
+  <script>
+    var searchDomain = '{{ site.external_domain }}';
+    var isProduction = window.location.hostname === 'developer.okta.com';
+    if (isProduction) {
+
+      // START Google Tag Manager
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-KXMLV58');
+      // END Google Tag Manager
+
+    }
+  </script>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   {% if page.sitemap.exclude == "yes" %}
+     <meta name="robots" content="noindex,nofollow">
+   {% endif %}
+
+  <link rel="stylesheet" href="https://static.cloud.coveo.com/searchui/v2.10081/5/css/CoveoFullSearch.min.css" integrity="sha512-c6ZA0d3XVIG36GHJHX+TRBINlF4+k4cDAngeqQmWzEcPys5FWvLCD/IVaUJsdmNchM+4YuCcYpaXsNsb2B8bWQ==" crossorigin="anonymous">
+
+  {% css animate %}
+  {% css okta %}
+  {% if page.css %}
+    {% css '{{page.css}}' %}
+  {% endif %}
+  {% if layout.css %}
+    {% css '{{layout.css}}' %}
+  {% endif %}
+  <title>{% if page.meta_title %}{{ page.meta_title }}{% elsif page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description" content="{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 300 }}{% elsif page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate 300 }}{% else %}{{ site.description }}{% endif %}">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}"><!-- GA -->
+  {% if page.layout == "blog_post" and page.path contains ".adoc" %}
+    {% css asciidoctor %}
+  {% endif %}
+  {% if page.layout == "blog_post" and page.path contains ".md" %}
+    {% css markdown %}
+  {% endif %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets-jekyll/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets-jekyll/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets-jekyll/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/assets-jekyll/favicon/manifest.json">
+  <link rel="mask-icon" href="/assets-jekyll/favicon/safari-pinned-tab.svg" color="#21313a">
+  <meta name="msapplication-config" content="/assets-jekyll/favicon/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
+  {% if page.canonical -%}
+  <link rel="canonical" href="{{ page.canonical }}" />
+  {%- else -%}
+  <link rel="canonical" href="{{ site.external_domain }}{{ page.url }}" />
+  {%- endif -%}
+  {% if page.layout == "blog_post" %}
+  <meta property="og:type"               content="article" />
+  <meta property="og:url"                content="{{ site.external_domain }}{{ page.url }}" />
+  <meta property="og:title"              content="{{ page.title }}" />
+  <meta property="og:description"        content="{{ page.description }}" />
+
+  <!-- Add BlogPosting schema -->
+  {% if page.image contains "blog" %}
+    {% capture blog_image %}{% asset_path '{{ page.image }}' %}{% endcapture %}
+    {% capture image %}"image": "{{ site.external_domain }}{{ blog_image }}",{% endcapture %}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "{{ page.title }}",
+      "genre": "Technology",
+      "publisher": {
+        "@type": "Organization",
+        "url": "https://www.okta.com",
+        "name": "Okta Inc.",
+        "logo": {
+          "@type": "imageObject",
+          "url": "https://www.okta.com/sites/all/themes/Okta/images/okta-logo-lg.png"
+        }
+      },
+      "url": "{{ site.external_domain }}{{ page.url }}",
+      "datePublished": "{{ page.date | date: "%Y-%m-%d" }}",
+      "dateCreated": "{{ page.date | date: "%Y-%m-%d" }}",
+    {%- if page.layout == 'blog_post' and page.changelog -%}
+    {% assign last_updated_date = page.changelog[0] | split: '=>' | first | date: "%Y-%m-%d" %}
+      "dateModified": "{{ last_updated_date }}",{% else %}
+      "dateModified": "{{ page.date | date: "%Y-%m-%d" }}",{% endif %}
+      "articleBody": "{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 300 }}{% elsif page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate 300 }}{% else %}{{ site.description }}{% endif %}",
+      "author": {
+        "@type": "Person",
+        "name": "{{ site.data.authors[page.author].full_name }}"
+      },
+      {% if image %}{{ image }}{% endif %}
+      "mainEntityOfPage": "BlogPost-content"
+    }
+     </script>
+  <!-- End BlogPosting schema -->
+  <meta property="og:image" content="{{ site.external_domain }}{% asset_path '{{ page.image }}' %}" />
+  {% endif %}
+  <meta property="og:site_name" content="{{ site.title }}" />
+  <!-- twitter will use the og: tags to show a preview -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@oktadev" />
+  <meta name="twitter:creator" content="@oktadev" />
+  {% endif %}
+  <!-- START VWO Tracking -->
+  <script type='text/javascript'>
+  var _vwo_code=(function(){
+    var account_id=342490,
+    settings_tolerance=2000,
+    library_tolerance=2500,
+    use_existing_jquery=false,
+    /* DO NOT EDIT BELOW THIS LINE */
+    f=false,d=document;return{use_existing_jquery:function(){return use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){settings_timer=setTimeout('_vwo_code.finish()',settings_tolerance);var a=d.createElement('style'),b='body{opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;}',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);this.load('//dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&r='+Math.random());return settings_timer;}};}());_vwo_settings_timer=_vwo_code.init();
+  </script>
+  <!-- END VWO Tracking -->
+</head>

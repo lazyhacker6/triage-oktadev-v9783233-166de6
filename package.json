@@ -1,0 +1,54 @@
+{
+  "name": "@oktadev/okta-blog",
+  "version": "1.0.0",
+  "description": "The Okta Developer Blog",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "generate": "cross-env-shell PID_FINDER=okta_github_io JEKYLL_ENV=production bundle exec jekyll",
+    "build-dev": "cross-env-shell PID_FINDER=okta_github_io JEKYLL_ENV=production bundle exec jekyll build --future -- --verbose",
+    "build-prod": "npm run generate build -- --verbose",
+    "start": "bundle exec jekyll serve --future --livereload --incremental --host=0.0.0.0",
+    "doctor": "bundle exec jekyll doctor",
+    "markdown-lint": "node scripts/lint",
+    "find-missing-slashes": "node scripts/find-missing-slashes",
+    "prep-for-deploy": "bash scripts/prep-for-deploy.sh",
+    "dev": "node scripts/dev-clean",
+    "dev-restore": "node scripts/dev-restore",
+    "post": "node scripts/post",
+    "clean-post": "node scripts/dev-chars",
+    "validate-front-matter": "node ./scripts/validate-front-matter",
+    "validate-images": "node ./scripts/image-validation",
+    "optimize-images": "node ./scripts/image-optimization",
+    "pre-push": " npm run markdown-lint && npm run validate-front-matter && npm run validate-images"
+  },
+  "pre-push": [
+    "dev-restore",
+    "markdown-lint",
+    "validate-front-matter",
+    "validate-images"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oktadev/okta-blog.git"
+  },
+  "author": "Joel Franusic <joel.franusic@okta.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/oktadev/okta-blog/issues"
+  },
+  "homepage": "https://github.com/oktadev/okta-blog#readme",
+  "devDependencies": {
+    "chalk": "4.1.2",
+    "cross-env": "7.0.3",
+    "front-matter": "^4.0.2",
+    "fs-extra": "^11.1.1",
+    "pre-push": "0.1.4",
+    "shelljs": "^0.8.5",
+    "recursive-readdir": "2.2.3",
+    "simple-git": "^3.20.0",
+    "yargs": "^17.7.2",
+    "sharp": "^0.32.6"
+  }
+}

@@ -1,0 +1,55 @@
+---
+layout: master
+js: blog.js
+show_bottom_cta: true
+---
+
+{% comment %}
+// assigned variables will "leak" into the included file
+// we must capture the content however otherwise {{ content }}
+// will leak as a raw string
+{% endcomment %}
+
+{%- assign post = page -%}
+
+{% comment %}
+// check if the author is a single author or multiple authors
+// .first will return a value for arrays
+{% endcomment %}
+
+{% if post.author.first %}
+  {%- assign authors = post.author -%}
+{% else %}
+  {%- assign authors = "" | split: "," -%}
+  {%- assign authors = authors | push: post.author -%}
+{% endif %}
+
+{% capture _post_content %}
+  {{ content }}
+{% endcapture %}
+
+<section class="Blog is-single">
+  {% include blog_post.html post_content=_post_content %}
+</section>
+
+<script>
+  // NOTE: The eventData object is being used by Google Tag Manager to fire off
+  // custom events that track which type of content was being viewed so we can
+  // track content on a more fine-grained level.
+  //
+  // This data is all anonymized (obviously) and contains no sensitive data.
+  var eventData = {};
+
+  {% if post.type %}
+    eventData.type = '{{ post.type }}';
+  {% endif %}
+
+  {% if post.by %}
+    eventData.by = '{{ post.by }}';
+  {% endif %}
+
+  eventData.communities = [];
+  {% for community in post.communities %}
+    eventData.communities.push('{{ community }}');
+  {% endfor %}
+</script>

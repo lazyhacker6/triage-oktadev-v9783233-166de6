@@ -1,0 +1,1 @@
+When performing a code review on any `.md` files in `_posts/` or `_source/_posts/`, apply the full editorial ruleset in `.github/instructions/content-review.instructions.md` (auto-loaded for those paths). Quote the offending text, cite the rule, and suggest a fix for every finding — don't summarize or skip sections.
